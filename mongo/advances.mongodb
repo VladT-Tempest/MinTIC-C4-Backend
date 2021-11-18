@@ -60,3 +60,6 @@ const advances = [
 
 // Insert advances
 db.getCollection(collection).insertMany(advances);
+
+
+
