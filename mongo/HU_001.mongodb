@@ -8,22 +8,18 @@ use(database);
 
 collection = 'users';
 
-<<<<<<< HEAD
 const users = [
   {
-    "email": "tomase.andersone@mail.com",
-    "documentId": Long('1020345679'),
-    "name": "Tomase",
-    "lastName": "Andersone",
-    "fullName": "Tomase Andersone",
+    "email": "tomasez.andersonez@mail.com",
+    "documentId": Long('1020345680'),
+    "name": "Tomasez",
+    "lastName": "Andersonez",
+    "fullName": "Tomasez Andersonez",
     "role": "admin",
     "status": "pending",
     "password": "$2a$10$FEBywZh8u9M0Cec/0mWep.1kXrwKeiWDba6tdKvDfEBjyePJnDT7K"
   }
 ];
-  
-=======
->>>>>>> 0a224a73e5fdea261770c7e9464541b8261dde35
 
 //HU_001 Insercion de usuarios a la base de datos (2/2)
 db.getCollection(collection).insertMany(users);
