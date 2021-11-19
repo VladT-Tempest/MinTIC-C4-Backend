@@ -1,0 +1,202 @@
+const database = 'mt-c4-db';
+
+// The current database to use.
+use(database);
+// projects collection
+
+collection = 'projects';
+
+// Drop projects collections
+db.getCollection(collection).drop();
+
+// Create projects collection schema
+db.createCollection(collection, {
+  validator: {
+    $jsonSchema: {
+      required: ['name', 'generalObjective', 'specificObjectives', 'budget', 'startDate', 'endDate', 'leader_id', 'status'],
+      properties: {
+        name: {
+          bsonType: 'string',
+        },
+        generalObjective: {
+          bsonType: 'string'
+        },
+        specificObjectives: {
+          bsonType: 'array'
+        },
+        budget: {
+          bsonType: 'decimal'
+        },
+        startDate: {
+          bsonType: 'date'
+        },
+        endDate: {
+          bsonType: 'date'
+        },
+        leader_id: {
+          bsonType: 'objectId'
+        },
+        status: {
+          enum: ['active', 'inactive']
+        },
+        phase: {
+          enum: ['started', 'in progress', 'ended']
+        }
+      }
+    }
+  }
+});
+
+
+
+const projects = [
+  {
+    "name": "Project 1",
+    "generalObjective": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent nisl augue, ultrices non placerat maximus, feugiat nec mauris.",
+    "specificObjectives": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit", "Praesent nisl augue, ultrices non placerat maximus, feugiat nec mauris."],
+    "budget": Decimal128('20000000'),
+    "startDate": new Date(),
+    "endDate": new Date(new Date().getTime() + 60*24*60*60000),
+    "leader_id": db.users.findOne({email: 'walter.white@mail.com'})._id,
+    "status": "inactive",
+  },
+  {
+    "name": "Project 2",
+    "generalObjective": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent nisl augue, ultrices non placerat maximus, feugiat nec mauris.",
+    "specificObjectives": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit", "Praesent nisl augue, ultrices non placerat maximus, feugiat nec mauris."],
+    "budget": Decimal128('10000000'),
+    "startDate": new Date(),
+    "endDate": new Date(new Date().getTime() + 60*24*60*60000),
+    "leader_id": db.users.findOne({email: 'walter.white@mail.com'})._id,
+    "status": "inactive",
+  },
+  {
+    "name": "Project 3",
+    "generalObjective": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent nisl augue, ultrices non placerat maximus, feugiat nec mauris.",
+    "specificObjectives": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit", "Praesent nisl augue, ultrices non placerat maximus, feugiat nec mauris."],
+    "budget": Decimal128('15000000'),
+    "startDate": new Date(),
+    "endDate": new Date(new Date().getTime() + 60*24*60*60000),
+    "leader_id": db.users.findOne({email: 'john.snow@mail.com'})._id,
+    "status": "inactive",
+  },
+  {
+    "name": "Project 4",
+    "generalObjective": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent nisl augue, ultrices non placerat maximus, feugiat nec mauris.",
+    "specificObjectives": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit", "Praesent nisl augue, ultrices non placerat maximus, feugiat nec mauris."],
+    "budget": Decimal128('35000000'),
+    "startDate": new Date(),
+    "endDate": new Date(new Date().getTime() + 60*24*60*60000),
+    "leader_id": db.users.findOne({email: 'john.snow@mail.com'})._id,
+    "status": "inactive",
+  }
+];
+
+// Insert projects
+
+//HU_012 Crear un nuevo proyecto
+db.getCollection(collection).insertMany(projects);
+
+
+//HU_006 Listar todos los proyectos registrados
+
+db.getCollection(collection).find();
+
+// HU_007 - HU_008 Actualizar el estado de un proyecto 
+
+db.getCollection(collection).update(
+  {name: "Project 4"},
+  {
+    $set: {
+    status: "active",
+    phase: "started"
+        }
+    }
+);
+
+//HU_009 Actualizar la fase del proyecto
+
+db.getCollection(collection).update(
+  {name: "Project 4"},
+  {
+    $set: {
+    phase: "ended"
+        }
+    }
+);
+
+//HU_010 Listado de estudiantes registrados en la plataforma
+db.users.aggregate([{
+  $match: { role: 'student' }
+}, {
+  $lookup: {
+    from: 'enrollments',
+    as: 'projects',
+    let: { user_id: '$_id' },
+    pipeline: [{
+      $match: {
+        $expr: { 
+          $eq: [ '$user_id', '$$user_id' ]
+        }
+      }
+    }, {
+      $lookup: {
+        from: 'projects',
+        localField: 'project_id',
+        foreignField: '_id',
+        as: 'user_project'
+      }
+    }, { 
+      $unwind: '$user_project'
+    }, {
+      $addFields: {
+        name: '$user_project.name',
+        status: '$user_project.status'
+      }
+    }, {
+      $project: {
+        user_id: 0,
+        project_id: 0,
+        _id: 0,
+        user_project: 0
+      }
+    }]
+  }
+}]);
+
+//HU_011 $Set de la historia 10
+db.getCollection(collection).update(
+  {documentId: "//ID DEL ESTUDIANTE RECOGIDO EN LA HU_010"},
+  {
+    $set: {
+    "status": "authorized"
+    }
+  }
+);
+
+//HU_013 Listar proyectos a cargo del lider
+
+const leader = db.users.findOne({email: 'john.snow@mail.com'})._id;
+
+db.getCollection(collection).find({leader_id: leader});
+
+//HU_014 $Set de la historia 13
+
+db.getCollection(collection).update(
+  {name: "//NOMBRE DEL PROYECTO A MODIFICAR"},
+  {
+    $set: {
+    "name": "Project 4",
+    "generalObjective": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent nisl augue, ultrices non placerat maximus, feugiat nec mauris.",
+    "specificObjectives": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit", "Praesent nisl augue, ultrices non placerat maximus, feugiat nec mauris."],
+    "budget": Decimal128('35000000'),
+    }
+  }
+);
+
+//HU_015 Listar estudiantes con estado de pendiente
+
+
+
+
+

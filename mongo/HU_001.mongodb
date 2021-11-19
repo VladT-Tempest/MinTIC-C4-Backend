@@ -1,0 +1,13 @@
+// BD name
+const database = 'mt-c4-db';
+
+// The current database to use.
+use(database);
+
+// users collection
+
+collection = 'users';
+
+
+//HU_001 Insercion de usuarios a la base de datos (2/2)
+db.getCollection(collection).insertMany(users);
