@@ -5,7 +5,6 @@ const database = 'mt-c4-db';
 use(database);
 
 // users collection
-
 collection = 'users';
 
 const users = [

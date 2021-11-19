@@ -5,7 +5,7 @@ const database = 'mt-c4-db';
 use(database);
 
 // users collection
-collection = 'users';
+collection = 'projects';
 
-//HU_004 Lista de todos los usuario registrados
+//HU_006 Listar todos los proyectos registrados
 db.getCollection(collection).find();

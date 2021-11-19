@@ -98,9 +98,7 @@ const projects = [
 db.getCollection(collection).insertMany(projects);
 
 
-//HU_006 Listar todos los proyectos registrados
 
-db.getCollection(collection).find();
 
 // HU_007 - HU_008 Actualizar el estado de un proyecto 
 
