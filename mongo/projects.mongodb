@@ -102,16 +102,7 @@ db.getCollection(collection).insertMany(projects);
 
 
 
-//HU_009 Actualizar la fase del proyecto
 
-db.getCollection(collection).update(
-  {name: "Project 4"},
-  {
-    $set: {
-    phase: "ended"
-        }
-    }
-);
 
 //HU_010 Listado de estudiantes registrados en la plataforma
 db.users.aggregate([{
