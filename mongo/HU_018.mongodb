@@ -1,17 +1,18 @@
+// BD name
 const database = 'mt-c4-db';
 
 // The current database to use
 use(database);
+
 // advances collection
 collection = 'advances'
 
-
 //HU_018 Actualizacion del campo de observaciones del avance seleccionado.
 db.getCollection(collection).update(
-  {name: "NOMBRE DEL PROYECTO A MODIFICAR"},
+  {project_id: ObjectId("61969e7b36174f352269300e")},
   {
     $set: {
-    "observations": 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam in dui et eros varius efficitur ut eget ex. Fusce faucibus dictum velit eget ultricies. Ut vitae efficitur ligula, nec interdum lacus. Phasellus id interdum neque. Fusce et velit id orci tempus maximus. Nam aliquam tincidunt tellus, eu condimentum sapien dictum sit amet. Aenean dictum volutpat facilisis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc sit amet orci non nisi pharetra fringilla.',
+    "observations": "Historia de usuario: HU_018",
     }
   }
 );
