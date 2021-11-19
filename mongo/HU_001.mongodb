@@ -8,6 +8,7 @@ use(database);
 
 collection = 'users';
 
+<<<<<<< HEAD
 const users = [
   {
     "email": "tomase.andersone@mail.com",
@@ -21,6 +22,8 @@ const users = [
   }
 ];
   
+=======
+>>>>>>> 0a224a73e5fdea261770c7e9464541b8261dde35
 
 //HU_001 Insercion de usuarios a la base de datos (2/2)
 db.getCollection(collection).insertMany(users);
