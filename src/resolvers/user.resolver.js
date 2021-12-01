@@ -9,7 +9,6 @@ import { USER_STATUS, ROLES } from '../constants/user.constants.js';
 import Users from "../models/users.model.js";
 import Enrollements from '../models/enrollments.model.js';
 
-// HU_004 -> administrador ve la información de los usuarios registrados en la plataforma
 const allUsers = async (parent, args, { user, errorMessage }) => {
   if(!user) {
     throw new Error(errorMessage);
@@ -17,7 +16,6 @@ const allUsers = async (parent, args, { user, errorMessage }) => {
   if(user.role !== ROLES.ADMIN) {
     throw new Error('Access denied');
   }
-  console.log(Users.find());
   return await Users.find();
 };
 

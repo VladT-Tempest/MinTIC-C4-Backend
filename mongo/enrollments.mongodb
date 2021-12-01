@@ -21,7 +21,7 @@ db.createCollection(collection, {
           bsonType: 'objectId'
         },
         status: {
-          enum: ['acepted', 'rejected']
+          enum: ['ACCEPTED', 'REJECTED']
         },
         enrollmentDate: {
           bsonType: 'date'
