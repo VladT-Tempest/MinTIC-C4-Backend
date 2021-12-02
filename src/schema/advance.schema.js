@@ -16,7 +16,14 @@ const queries = gql`
     }
 `;
 
+const mutations = gql`
+    type Mutation {
+        update_advance(_id: ID!, observations: String): Advance
+    }
+`;
+
 export default [
     advanceType,
     queries,
+    mutations,
 ];

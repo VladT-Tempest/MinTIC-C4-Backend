@@ -11,9 +11,18 @@ const project = async (parent) => {
     return project;
 };
 
+const update_advance = async (parent, args) => {
+    return Advances.findByIdAndUpdate(args._id,
+      {observations: args.observations || undefined}
+    );
+  };
+
 export default {
     advanceQueries: {
         allAdvances
+    },
+    advanceMutations: {
+        update_advance,
     },
     Advance: {
         project,
