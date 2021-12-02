@@ -20,7 +20,8 @@ const student = async (parent) => {
 
 const update_enrollment = async (parent, args) => {
   return Enrollments.findByIdAndUpdate(args._id,
-    {status: args.status || undefined}
+    {status: args.status || undefined},
+    {new: true}
   );
 };
 

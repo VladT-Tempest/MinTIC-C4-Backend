@@ -32,7 +32,8 @@ const update_project = async (parent, args, {user, errorMessage}) => {
     generalObjective: args.input.generalObjective || undefined,
     "$push": {"specificObjectives": args.input.specificObjectives || undefined},
     budget: args.input.budget || undefined
-    }
+    },
+    {new: true}
   );
 };
 const enrollments = async (parent) => {

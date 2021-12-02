@@ -13,7 +13,8 @@ const project = async (parent) => {
 
 const update_advance = async (parent, args) => {
     return Advances.findByIdAndUpdate(args._id,
-      {observations: args.observations || undefined}
+      {observations: args.observations || undefined},
+    {new: true}
     );
   };
 
