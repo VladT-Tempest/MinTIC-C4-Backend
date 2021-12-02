@@ -58,7 +58,14 @@ const mutations = gql`
   type Mutation {
     login(email: String!, password: String!): String!
   }
+
+   type Mutation {
+    changeStatus(email: String!): User!
+  }
+
 `;
+
+
 
 const inputs = gql`
   input RegisterInput {

@@ -1,8 +1,23 @@
+// vendors
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+
+// constants
+import { USER_STATUS, ROLES } from '../constants/user.constants.js';
+
+// models
 import Projects from "../models/projects.model.js";
 import Users from "../models/users.model.js";
 import Enrollements from "../models/enrollments.model.js";
 
-const allProjects = async () => {
+// HU_006 Administrador --> ver la lista de proyectos
+const allProjects = async (parent, args, { user, errorMessage }) => {
+  if(!user) {
+    throw new Error(errorMessage);
+  }
+  if(user.role != ROLES.ADMIN) {
+    throw new Error('Access denied');
+  }  
   const projects = await Projects.find();
   return projects;
 };

@@ -8,7 +8,9 @@ import { USER_STATUS, ROLES } from '../constants/user.constants.js';
 // models
 import Users from "../models/users.model.js";
 import Enrollements from '../models/enrollments.model.js';
+//import { cloneObject } from 'apollo-server-core/dist/runHttpQuery';
 
+// HU_004 administrador ver la información de los usuarios registrados en la plataforma
 const allUsers = async (parent, args, { user, errorMessage }) => {
   if(!user) {
     throw new Error(errorMessage);
@@ -17,6 +19,18 @@ const allUsers = async (parent, args, { user, errorMessage }) => {
     throw new Error('Access denied');
   }
   return await Users.find();
+};
+
+// HU_005 administrador cambiar el estado de un usuario
+const changeStatus = async (parent, args, { user, errorMessage }) => {
+  console.log(args.email);
+  if(!user) {
+    throw new Error(errorMessage);
+  }
+  if(user.role !== ROLES.ADMIN) {
+    throw new Error('Access denied');
+  }
+  return await Users.findOneAndUpdate({"email": args.email}, {"status":"AUTHORIZED"} )
 };
 
 const user = async (parent, args, { user, errorMessage }) => {
@@ -54,7 +68,7 @@ const login = async (parent, args) => {
     { user },
     // eslint-disable-next-line no-undef
     process.env.SECRET,
-    { expiresIn: '30m' }
+    { expiresIn: '60m' }
   );
   return token;
 };
@@ -73,6 +87,7 @@ export default {
   userMutations: {
     register,
     login,
+    changeStatus,
   },
   User: {
     enrollments,
