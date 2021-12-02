@@ -18,9 +18,18 @@ const student = async (parent) => {
   return student;
 };
 
+const update_enrollment = async (parent, args) => {
+  return Enrollments.findByIdAndUpdate(args._id,
+    {status: args.status || undefined}
+  );
+};
+
 export default {
   enrollmentQueries: {
     allEnrollments
+  },
+  enrollmentMutations: {
+    update_enrollment
   },
   Enrollment: {
     project,
