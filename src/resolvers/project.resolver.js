@@ -1,6 +1,7 @@
 import Projects from "../models/projects.model.js";
 import Users from "../models/users.model.js";
 import Enrollements from "../models/enrollments.model.js";
+import Advances from "../models/advances.model.js";
 
 const allProjects = async () => {
   const projects = await Projects.find();
@@ -11,6 +12,11 @@ const project = async (parent, args) => {
   const user = await Projects.findById(args._id);
   return user;
 };
+
+const advances = async (parent) => {
+  const listAdvances = await Advances.find({ project_id: parent._id.toString() });
+  return listAdvances;
+}
 
 const leader = async (parent) => {
   const user = await Users.findById(parent.leader_id);
@@ -45,5 +51,6 @@ export default {
   Project: {
     leader,
     enrollments,
+    advances,
   }
 };
