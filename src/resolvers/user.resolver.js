@@ -30,7 +30,7 @@ const changeStatus = async (parent, args, { user, errorMessage }) => {
   if(user.role !== ROLES.ADMIN) {
     throw new Error('Access denied');
   }
-  return await Users.findOneAndUpdate({"email": args.email}, {"status":"AUTHORIZED"} )
+  return await Users.findOneAndUpdate({"email": args.email}, {"status": args.status }, {new: true} )
 };
 
 const user = async (parent, args, { user, errorMessage }) => {

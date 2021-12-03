@@ -60,7 +60,7 @@ const mutations = gql`
   }
 
    type Mutation {
-    changeStatus(email: String!): User!
+    changeStatus(email: String!, status: UserStatus!): User!
   }
 
 `;
