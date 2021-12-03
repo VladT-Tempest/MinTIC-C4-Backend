@@ -23,7 +23,7 @@ const allUsers = async (parent, args, { user, errorMessage }) => {
 
 // HU_005 administrador cambiar el estado de un usuario
 const changeStatus = async (parent, args, { user, errorMessage }) => {
-  console.log(args.email);
+  
   if(!user) {
     throw new Error(errorMessage);
   }
