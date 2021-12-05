@@ -1,12 +1,21 @@
 import Projects from "../models/projects.model.js";
 import Users from "../models/users.model.js";
 import Enrollements from "../models/enrollments.model.js";
+import { ROLES } from "../constants/user.constants.js";
 
 const allProjects = async () => {
   const projects = await Projects.find();
   return projects;
 };
-
+const allProjectsEstudiante019 = async (parent, args, { user, errorMessage }) => {
+  if(!user){
+    throw new Error(errorMessage);
+  }
+  if(user.role == ROLES.STUDENT){
+    const projects = await Projects.find();
+    return projects;
+  }
+};
 const project = async (parent, args) => {
   const user = await Projects.findById(args._id);
   return user;
@@ -25,6 +34,7 @@ const enrollments = async (parent) => {
 export default {
   projectQueries: {
     allProjects,
+    allProjectsEstudiante019,
     project,
   },
   Project: {

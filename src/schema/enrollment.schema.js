@@ -26,8 +26,24 @@ const queries = gql`
   }
 `;
 
+const mutations = gql`
+  type Mutation {
+    registerEnrrolment020(input: enrrolmentInput!): Enrollment!
+  }
+
+`;
+
+
+const inputs = gql`
+  input enrrolmentInput {
+    project: String!
+  }
+`;
+
 export default [
   enrollmentType,
   enums,
   queries,
+  mutations,
+  inputs,
 ];

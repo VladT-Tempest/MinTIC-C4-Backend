@@ -8,6 +8,17 @@ const allEnrollments = async () => {
   return enrollments;
 }
 
+const registerEnrrolment020 = async (parent, args, { user, errorMessage }) => {
+  const idProject = await Projects.findOne({name: args.input.project }, '_id');
+  
+  const registroEnrollment = new Enrollments({
+    project_id: idProject,
+    user_id: user._id,
+    enrollmentDate: new Date(), 
+  });
+  return registroEnrollment.save();
+}; 
+
 const project = async (parent) => {
   const project = await Projects.findById(parent.project_id);
   return project;
@@ -21,6 +32,9 @@ const student = async (parent) => {
 export default {
   enrollmentQueries: {
     allEnrollments
+  },
+  enrollmentMutations:{
+    registerEnrrolment020
   },
   Enrollment: {
     project,

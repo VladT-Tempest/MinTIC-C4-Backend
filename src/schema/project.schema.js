@@ -16,6 +16,19 @@ const projectType = gql`
     leader: User!
     enrollments: [Enrollment]
   }
+  type ProjectE {
+    _id: ID!,
+    name: String!
+    generalObjective: String!
+    specificObjectives: [String]!
+    budget: Float!
+    startDate: String!
+    endDate: String!
+    leader_id: ID!
+    status: ProjectStatus!
+    phase: Phase
+    leader: User!
+  }
 `;
 
 const enums = gql`
@@ -37,6 +50,9 @@ const queries = gql`
   # Query all projects
   type Query {
     allProjects: [Project]
+  }
+  type Query {
+    allProjectsEstudiante019: [ProjectE]
   }
 
   type Query {
