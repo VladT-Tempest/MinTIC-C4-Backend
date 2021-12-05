@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 
 // constants
 import { USER_STATUS, ROLES } from '../constants/user.constants.js';
+import { PHASE } from '../constants/project.constants.js';
 
 // models
 import Projects from "../models/projects.model.js";
@@ -34,6 +35,18 @@ const projectChangeStatus = async (parent, args, { user, errorMessage }) => {
   return await Projects.findOneAndUpdate({"name": args.name}, {"status": args.status }, {new: true} )
 };
 
+// HU_009
+const projectChangePhase = async (parent, args, { user, errorMessage }) => {
+  
+  if(!user) {
+    throw new Error(errorMessage);
+  }
+  if(user.role !== ROLES.ADMIN) {
+    throw new Error('Access denied');
+  }
+  return await Projects.findOneAndUpdate({"name": args.name}, {"phase": args.phase }, {new: true} )
+};
+
 const project = async (parent, args) => {
   const user = await Projects.findById(args._id);
   return user;
@@ -57,6 +70,7 @@ export default {
 
   projectMutations: {
     projectChangeStatus,
+    projectChangePhase,
   },
 
   Project: {

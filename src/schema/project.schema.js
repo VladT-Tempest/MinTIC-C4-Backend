@@ -50,6 +50,9 @@ const mutations = gql`
     projectChangeStatus(name: String!, status: ProjectStatus!): Project
   }
 
+  type Mutation {
+    projectChangePhase(name: String!, phase: Phase!): Project
+  }
 `;
 
 export default [
