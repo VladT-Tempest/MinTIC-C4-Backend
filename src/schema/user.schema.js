@@ -11,12 +11,13 @@ const userType = gql`
     fullName: String!
     role: Role!
     status: UserStatus!
+    enrollments: [Enrollment]
   }
 `;
 
 const enums = gql`
   # Enum for role values
-  enum Role {
+  enum UserRole {
     ADMIN
     LEADER
     STUDENT
@@ -37,7 +38,11 @@ const queries = gql`
   }
 
   type Query {
-    user(_id: ID!): User
+    userById(_id: ID!): User
+  }
+
+  type Query {
+    user: User!
   }
 
   type Query {
@@ -61,9 +66,7 @@ const inputs = gql`
     documentId: Float!
     name: String!
     lastName: String!
-    fullName: String!
-    role: Role!
-    status: UserStatus!
+    role: UserRole!
     password: String!
   }
 `;
