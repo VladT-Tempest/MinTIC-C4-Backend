@@ -44,8 +44,17 @@ const queries = gql`
   }
 `;
 
+const mutations = gql`
+ 
+   type Mutation {
+    projectChangeStatus(name: String!, status: ProjectStatus!): Project
+  }
+
+`;
+
 export default [
   projectType,
   enums,
-  queries
+  queries,
+  mutations
 ];
