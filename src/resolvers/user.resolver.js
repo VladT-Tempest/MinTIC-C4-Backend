@@ -19,6 +19,31 @@ const allUsers = async (parent, args, { user, errorMessage }) => {
   return await Users.find();
 };
 
+// HU_010 (LIDER) Ver la información de los estudiantes registrados en la plataforma
+const userByRole = async (parent, args, { user, errorMessage }) => {
+  if(!user) {
+    throw new Error(errorMessage);
+  }
+  if(user.role == ROLES.STUDENT){
+    const Students = await Users.find();
+    return Students; 
+  } 
+};
+//
+// HU_011 (LIDER) Cambiar el estado del estudiante de “Pendiente” a “Autorizado”
+const changeStatusLider = async (parent, args, { user, errorMessage }) => {
+  
+  if(!user) {
+    throw new Error(errorMessage);
+  }
+  if(user.role !== ROLES.ADMIN) {
+    throw new Error('Access denied');
+  }
+  return await Users.findOneAndUpdate({"documentId": args.documentId}, {"status": args.status }, {new: true} )
+};
+//
+
+
 const user = async (parent, args, { user, errorMessage }) => {
   if(!user) {
     throw new Error(errorMessage);
@@ -69,10 +94,13 @@ export default {
     allUsers,
     user,
     userByEmail,
+    userByRole,
   },
   userMutations: {
     register,
     login,
+    changeStatusLider,
+ 
   },
   User: {
     enrollments,
