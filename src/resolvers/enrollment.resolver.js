@@ -34,7 +34,8 @@ export default {
     allEnrollments
   },
   enrollmentMutations:{
-    registerEnrrolment020
+    registerEnrrolment020,
+    update_enrollment
   },
   Enrollment: {
     project,

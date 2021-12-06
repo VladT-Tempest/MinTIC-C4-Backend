@@ -15,6 +15,7 @@ const projectType = gql`
     phase: Phase
     leader: User!
     enrollments: [Enrollment]
+    advances: [Advance]
   }
   type ProjectE {
     _id: ID!,
@@ -60,8 +61,25 @@ const queries = gql`
   }
 `;
 
+const mutations = gql`
+  type Mutation {
+    update_project(input: UpdateInfo!, _id: ID!): Project
+  }
+`;
+
+const inputs = gql`
+  input UpdateInfo {
+    name: String
+    generalObjective: String
+    specificObjectives: String
+    budget: Float
+  }
+`;
+
 export default [
   projectType,
   enums,
-  queries
+  queries,
+  mutations,
+  inputs
 ];

@@ -3,6 +3,7 @@ import { gql } from 'apollo-server';
 const enrollmentType = gql`
   # Enrollment
   type Enrollment {
+    _id: ID!
     status: EnrollmentStatus
     enrollmentDate: String
     egresDate: String
@@ -37,6 +38,7 @@ const mutations = gql`
 const inputs = gql`
   input enrrolmentInput {
     project: String!
+    update_enrollment(_id: ID!, status: EnrollmentStatus!): Enrollment
   }
 `;
 
