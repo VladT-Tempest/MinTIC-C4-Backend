@@ -32,6 +32,29 @@ const leader = async (parent) => {
   return user;
 };
 
+// HU_012 (LIDER) Crear un nuevo proyecto
+const registerNewProject = async (parent, args) => { 
+  const Projec = new Projects({
+    ...args.input,
+    name: args.input.name,
+    generalObjective: args.input.generalObjective,
+    specificObjectives:  args.input.specificObjectives ,
+    budget: args.input.budget ,
+    startDate: args.input.startDate ,
+    endDate: args.input.endDate ,
+    leader_id: args.input.leader_id ,
+    status: args.input.status,
+    });
+  return Projec.save();
+};
+//
+// HU_013 (LIDER) Listar los proyectos que tengo a cargo
+const FindByleader = async (parent, args) => {
+  const UserEmail = await Users.findOne({ email: args.email })._id;
+  const leader =  Projects.find({leader_id : UserEmail});
+  return leader
+};
+
 const update_project = async (parent, args, {user, errorMessage}) => {
   if(!user) {
     throw new Error(errorMessage);
@@ -55,13 +78,15 @@ export default {
     allProjects,
     allProjectsEstudiante019,
     project,
+    FindByleader,
   },
   projectMutations: {
     update_project,
+    registerNewProject
   },
   Project: {
     leader,
     enrollments,
-    advances,
+    advances
   }
-};
+}

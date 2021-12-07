@@ -48,6 +48,10 @@ const queries = gql`
   type Query {
     userByEmail(email: String!): User
   }
+  
+  type Query {
+    userByRole: [User]
+  }
 `;
 
 const mutations = gql`
@@ -58,7 +62,14 @@ const mutations = gql`
   type Mutation {
     login(email: String!, password: String!): String!
   }
+
+  type Mutation {
+    changeStatusLider (documentId: Float!, status: UserStatus!): User!
+  }
+
 `;
+
+
 
 const inputs = gql`
   input RegisterInput {

@@ -3,7 +3,7 @@ import { gql } from 'apollo-server';
 const projectType = gql`
   # Project
   type Project {
-    _id: ID!,
+    _id: ID!
     name: String!
     generalObjective: String!
     specificObjectives: [String]!
@@ -59,6 +59,29 @@ const queries = gql`
   type Query {
     project(_id: ID): Project
   }
+
+  type Query {
+    FindByleader(email: String!): Project
+  }
+`;
+
+const mutations = gql`
+  type Mutation {
+    registerNewProject(input: RegisterNewProjectInput!): Project!
+  }
+`;
+
+const inputs = gql`
+  input RegisterNewProjectInput {
+    name: String!
+    generalObjective: String!
+    specificObjectives: [String]!
+    budget: Float!
+    startDate: String!
+    endDate: String!
+    leader_id: ID!
+    status: ProjectStatus!
+  }
 `;
 
 const mutations = gql`
@@ -81,5 +104,5 @@ export default [
   enums,
   queries,
   mutations,
-  inputs
+  inputs,
 ];
