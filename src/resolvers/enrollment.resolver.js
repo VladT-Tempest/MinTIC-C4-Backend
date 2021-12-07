@@ -1,3 +1,4 @@
+import { USER_STATUS, ROLES } from '../constants/user.constants.js';
 // models
 import Enrollments from '../models/enrollments.model.js';
 import Projects from '../models/projects.model.js';
@@ -28,7 +29,13 @@ const student = async (parent) => {
   return student;
 };
 
-const update_enrollment = async (parent, args) => {
+const update_enrollment = async (parent, args, { user, errorMessage}) => {
+  if(!user) {
+    throw new Error(errorMessage);
+  }
+  if(user.role !== ROLES.LEADER) {
+    throw new Error('Access denied');
+  }
   return Enrollments.findByIdAndUpdate(args._id,
     {status: args.status || undefined},
     {new: true}

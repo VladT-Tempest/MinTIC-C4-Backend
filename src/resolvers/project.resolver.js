@@ -100,6 +100,9 @@ const update_project = async (parent, args, {user, errorMessage}) => {
   if(!user) {
     throw new Error(errorMessage);
   }
+  if(user.role !== ROLES.LEADER) {
+    throw new Error('Access denied');
+  }
   return Projects.findByIdAndUpdate(args._id,
     {name: args.input.name || undefined,
     generalObjective: args.input.generalObjective || undefined,
@@ -123,10 +126,7 @@ export default {
   },
   projectMutations: {
     update_project,
-    registerNewProject
-  },
-
-  projectMutations: {
+    registerNewProject,
     projectChangeStatus,
     projectChangePhase,
   },
