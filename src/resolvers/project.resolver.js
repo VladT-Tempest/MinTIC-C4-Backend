@@ -10,6 +10,8 @@ import { PHASE } from '../constants/project.constants.js';
 import Projects from "../models/projects.model.js";
 import Users from "../models/users.model.js";
 import Enrollements from "../models/enrollments.model.js";
+import { ROLES } from "../constants/user.constants.js";
+import Advances from "../models/advances.model.js";
 
 // HU_006 Administrador --> ver la lista de proyectos
 const allProjects = async (parent, args, { user, errorMessage }) => {
@@ -46,17 +48,66 @@ const projectChangePhase = async (parent, args, { user, errorMessage }) => {
   }
   return await Projects.findOneAndUpdate({"name": args.name}, {"phase": args.phase }, {new: true} )
 };
-
+const allProjectsEstudiante019 = async (parent, args, { user, errorMessage }) => {
+  if(!user){
+    throw new Error(errorMessage);
+  }
+  if(user.role == ROLES.STUDENT){
+    const projects = await Projects.find();
+    return projects;
+  }
+};
 const project = async (parent, args) => {
   const user = await Projects.findById(args._id);
   return user;
 };
+
+const advances = async (parent) => {
+  const listAdvances = await Advances.find({ project_id: parent._id.toString() });
+  return listAdvances;
+}
 
 const leader = async (parent) => {
   const user = await Users.findById(parent.leader_id);
   return user;
 };
 
+// HU_012 (LIDER) Crear un nuevo proyecto
+const registerNewProject = async (parent, args) => { 
+  const Projec = new Projects({
+    ...args.input,
+    name: args.input.name,
+    generalObjective: args.input.generalObjective,
+    specificObjectives:  args.input.specificObjectives ,
+    budget: args.input.budget ,
+    startDate: args.input.startDate ,
+    endDate: args.input.endDate ,
+    leader_id: args.input.leader_id ,
+    status: args.input.status,
+    });
+  return Projec.save();
+};
+//
+// HU_013 (LIDER) Listar los proyectos que tengo a cargo
+const FindByleader = async (parent, args) => {
+  const UserEmail = await Users.findOne({ email: args.email })._id;
+  const leader =  Projects.find({leader_id : UserEmail});
+  return leader
+};
+
+const update_project = async (parent, args, {user, errorMessage}) => {
+  if(!user) {
+    throw new Error(errorMessage);
+  }
+  return Projects.findByIdAndUpdate(args._id,
+    {name: args.input.name || undefined,
+    generalObjective: args.input.generalObjective || undefined,
+    "$push": {"specificObjectives": args.input.specificObjectives || undefined},
+    budget: args.input.budget || undefined
+    },
+    {new: true}
+  );
+};
 const enrollments = async (parent) => {
   const enrollments = await Enrollements.find({ project_id: parent._id.toString() });
   return enrollments;
@@ -65,7 +116,13 @@ const enrollments = async (parent) => {
 export default {
   projectQueries: {
     allProjects,
+    allProjectsEstudiante019,
     project,
+    FindByleader,
+  },
+  projectMutations: {
+    update_project,
+    registerNewProject
   },
 
   projectMutations: {
@@ -76,5 +133,6 @@ export default {
   Project: {
     leader,
     enrollments,
+    advances
   }
-};
+}
