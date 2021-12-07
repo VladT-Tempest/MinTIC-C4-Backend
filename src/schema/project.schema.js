@@ -15,6 +15,20 @@ const projectType = gql`
     phase: Phase
     leader: User!
     enrollments: [Enrollment]
+    advances: [Advance]
+  }
+  type ProjectE {
+    _id: ID!,
+    name: String!
+    generalObjective: String!
+    specificObjectives: [String]!
+    budget: Float!
+    startDate: String!
+    endDate: String!
+    leader_id: ID!
+    status: ProjectStatus!
+    phase: Phase
+    leader: User!
   }
 `;
 
@@ -38,14 +52,34 @@ const queries = gql`
   type Query {
     allProjects: [Project]
   }
+  type Query {
+    allProjectsEstudiante019: [ProjectE]
+  }
 
   type Query {
     project(_id: ID): Project
   }
 `;
 
+const mutations = gql`
+  type Mutation {
+    update_project(input: UpdateInfo!, _id: ID!): Project
+  }
+`;
+
+const inputs = gql`
+  input UpdateInfo {
+    name: String
+    generalObjective: String
+    specificObjectives: String
+    budget: Float
+  }
+`;
+
 export default [
   projectType,
   enums,
-  queries
+  queries,
+  mutations,
+  inputs
 ];
