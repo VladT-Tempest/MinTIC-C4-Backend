@@ -10,7 +10,6 @@ import { PHASE } from '../constants/project.constants.js';
 import Projects from "../models/projects.model.js";
 import Users from "../models/users.model.js";
 import Enrollements from "../models/enrollments.model.js";
-import { ROLES } from "../constants/user.constants.js";
 import Advances from "../models/advances.model.js";
 
 // HU_006 Administrador --> ver la lista de proyectos
