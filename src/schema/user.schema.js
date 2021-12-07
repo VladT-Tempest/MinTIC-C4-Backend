@@ -63,10 +63,12 @@ const mutations = gql`
     login(email: String!, password: String!): String!
   }
   type Mutation {
+    updateUser(input: UpdateUserInput!): User!
+  }
+  type Mutation {
     changeStatusLider (documentId: Float!, status: UserStatus!): User!
 
   }
-
 `;
 
 
@@ -79,6 +81,17 @@ const inputs = gql`
     lastName: String!
     role: UserRole!
     password: String!
+  }
+
+  input UpdateUserInput {
+    userById: ID!
+    email: String
+    documentId: Float
+    name: String
+    lastName: String
+    fullName: String
+    role: UserRole
+    password: String
   }
 `;
 

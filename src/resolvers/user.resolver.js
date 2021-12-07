@@ -52,6 +52,7 @@ const user = async (parent, args, { user, errorMessage }) => {
   return user;
 };
 
+// HU_001 Registro de usuario en el sistema
 const register = async (parent, args) => {
   const user = new Users({
     ...args.input,
@@ -62,11 +63,17 @@ const register = async (parent, args) => {
   return user.save();
 };
 
+const userById = async (parent, args) => {
+  const user = await Users.findById(args._id);
+  return user;
+};
+
 const userByEmail = async (parent, args) => {
   const user = await Users.findOne({ email: args.email });
   return user;
 };
 
+// HU_002 Autenticación del usuario
 const login = async (parent, args) => {
   const user = await Users.findOne({ email: args.email });
   if (!user) {
@@ -85,6 +92,25 @@ const login = async (parent, args) => {
   return token;
 };
 
+// HU_003 Actualizar información personal
+const updateUser = async (parent, args) => {
+  let userModified = await Users.findOneAndUpdate({_id: args.input.userById},
+    {
+      email: args.input.email,
+      documentId: args.input.documentId,
+      name: args.input.name,
+      lastName: args.input.lastName,
+      fullName: args.input.fullName,
+      // fullName: `${args.input.name} ${args.input.lastName}`,
+      role: args.input.role,
+      password: args.input.password
+      // password: await bcrypt.hash(args.input.password, 12),
+    },
+    {new: true}
+  );
+  return userModified;
+};
+
 const enrollments = async (parent) => {
   const enrollments = await Enrollements.find({ user_id: parent._id });
   return enrollments;
@@ -94,12 +120,14 @@ export default {
   userQueries: {
     allUsers,
     user,
+    userById,
     userByEmail,
     userByRole,
   },
   userMutations: {
     register,
     login,
+    updateUser,
     changeStatusLider
   },
   User: {
