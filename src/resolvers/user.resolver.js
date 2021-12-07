@@ -28,7 +28,7 @@ const userByRole = async (parent, args, { user, errorMessage }) => {
     throw new Error(errorMessage);
   }
   if(user.role == ROLES.STUDENT){
-    const Students = await Users.find();
+    const Students = await Users.find({"role": args.role});
     return Students; 
   } 
 };
