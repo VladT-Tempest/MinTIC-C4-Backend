@@ -77,7 +77,8 @@ const updateUser = async (parent, args) => {
       fullName: args.input.fullName,
       // fullName: `${args.input.name} ${args.input.lastName}`,
       role: args.input.role,
-      password: await bcrypt.hash(args.input.password, 12),
+      password: args.input.password
+      // password: await bcrypt.hash(args.input.password, 12),
     },
     {new: true}
   );
