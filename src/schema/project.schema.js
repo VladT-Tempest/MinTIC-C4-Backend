@@ -94,6 +94,17 @@ const inputs = gql`
   }
 `;
 
+const mutations = gql`
+ 
+   type Mutation {
+    projectChangeStatus(name: String!, status: ProjectStatus!): Project
+  }
+
+  type Mutation {
+    projectChangePhase(name: String!, phase: Phase!): Project
+  }
+`;
+
 export default [
   projectType,
   enums,

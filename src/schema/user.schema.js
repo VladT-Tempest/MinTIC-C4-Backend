@@ -62,9 +62,9 @@ const mutations = gql`
   type Mutation {
     login(email: String!, password: String!): String!
   }
-
   type Mutation {
     changeStatusLider (documentId: Float!, status: UserStatus!): User!
+
   }
 
 `;

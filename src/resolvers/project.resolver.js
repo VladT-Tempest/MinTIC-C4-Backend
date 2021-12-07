@@ -1,12 +1,52 @@
+// vendors
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+
+// constants
+import { USER_STATUS, ROLES } from '../constants/user.constants.js';
+import { PHASE } from '../constants/project.constants.js';
+
+// models
 import Projects from "../models/projects.model.js";
 import Users from "../models/users.model.js";
 import Enrollements from "../models/enrollments.model.js";
 import { ROLES } from "../constants/user.constants.js";
 import Advances from "../models/advances.model.js";
 
-const allProjects = async () => {
+// HU_006 Administrador --> ver la lista de proyectos
+const allProjects = async (parent, args, { user, errorMessage }) => {
+  if(!user) {
+    throw new Error(errorMessage);
+  }
+  if(user.role != ROLES.ADMIN) {
+    throw new Error('Access denied');
+  }  
   const projects = await Projects.find();
   return projects;
+};
+
+// HU_008
+const projectChangeStatus = async (parent, args, { user, errorMessage }) => {
+  
+  if(!user) {
+    throw new Error(errorMessage);
+  }
+  if(user.role !== ROLES.ADMIN) {
+    throw new Error('Access denied');
+  }
+  return await Projects.findOneAndUpdate({"name": args.name}, {"status": args.status }, {new: true} )
+};
+
+// HU_009
+const projectChangePhase = async (parent, args, { user, errorMessage }) => {
+  
+  if(!user) {
+    throw new Error(errorMessage);
+  }
+  if(user.role !== ROLES.ADMIN) {
+    throw new Error('Access denied');
+  }
+  return await Projects.findOneAndUpdate({"name": args.name}, {"phase": args.phase }, {new: true} )
 };
 const allProjectsEstudiante019 = async (parent, args, { user, errorMessage }) => {
   if(!user){
@@ -84,6 +124,12 @@ export default {
     update_project,
     registerNewProject
   },
+
+  projectMutations: {
+    projectChangeStatus,
+    projectChangePhase,
+  },
+
   Project: {
     leader,
     enrollments,

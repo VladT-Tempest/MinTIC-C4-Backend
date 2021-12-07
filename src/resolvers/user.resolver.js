@@ -8,7 +8,9 @@ import { USER_STATUS, ROLES } from '../constants/user.constants.js';
 // models
 import Users from "../models/users.model.js";
 import Enrollements from '../models/enrollments.model.js';
+//import { cloneObject } from 'apollo-server-core/dist/runHttpQuery';
 
+// HU_004 administrador ver la información de los usuarios registrados en la plataforma
 const allUsers = async (parent, args, { user, errorMessage }) => {
   if(!user) {
     throw new Error(errorMessage);
@@ -18,6 +20,7 @@ const allUsers = async (parent, args, { user, errorMessage }) => {
   }
   return await Users.find();
 };
+
 
 // HU_010 (LIDER) Ver la información de los estudiantes registrados en la plataforma
 const userByRole = async (parent, args, { user, errorMessage }) => {
@@ -32,7 +35,6 @@ const userByRole = async (parent, args, { user, errorMessage }) => {
 //
 // HU_011 (LIDER) Cambiar el estado del estudiante de “Pendiente” a “Autorizado”
 const changeStatusLider = async (parent, args, { user, errorMessage }) => {
-  
   if(!user) {
     throw new Error(errorMessage);
   }
@@ -41,7 +43,6 @@ const changeStatusLider = async (parent, args, { user, errorMessage }) => {
   }
   return await Users.findOneAndUpdate({"documentId": args.documentId}, {"status": args.status }, {new: true} )
 };
-//
 
 
 const user = async (parent, args, { user, errorMessage }) => {
@@ -79,7 +80,7 @@ const login = async (parent, args) => {
     { user },
     // eslint-disable-next-line no-undef
     process.env.SECRET,
-    { expiresIn: '30m' }
+    { expiresIn: '60m' }
   );
   return token;
 };
@@ -99,8 +100,7 @@ export default {
   userMutations: {
     register,
     login,
-    changeStatusLider,
- 
+    changeStatusLider
   },
   User: {
     enrollments,
