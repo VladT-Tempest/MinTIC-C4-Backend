@@ -89,8 +89,10 @@ const registerNewProject = async (parent, args) => {
 //
 // HU_013 (LIDER) Listar los proyectos que tengo a cargo
 const FindByleader = async (parent, args) => {
-  const UserEmail = await Users.findOne({ email: args.email })._id;
-  const leader =  Projects.find({leader_id : UserEmail});
+  const UserEmail = await Users.findOne({ email: args.email });
+  const User = UserEmail;
+  const leader =  Projects.find({leader_id : User._id.toString()});
+  console.log(leader)
   return leader
 };
 

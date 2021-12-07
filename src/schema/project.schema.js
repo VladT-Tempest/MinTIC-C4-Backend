@@ -61,7 +61,7 @@ const queries = gql`
   }
 
   type Query {
-    FindByleader(email: String!): Project
+    FindByleader(email: String!): [Project]
   }
 `;
 
