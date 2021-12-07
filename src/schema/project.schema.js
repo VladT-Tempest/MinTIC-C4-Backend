@@ -15,6 +15,20 @@ const projectType = gql`
     phase: Phase
     leader: User!
     enrollments: [Enrollment]
+    advances: [Advance]
+  }
+  type ProjectE {
+    _id: ID!,
+    name: String!
+    generalObjective: String!
+    specificObjectives: [String]!
+    budget: Float!
+    startDate: String!
+    endDate: String!
+    leader_id: ID!
+    status: ProjectStatus!
+    phase: Phase
+    leader: User!
   }
 `;
 
@@ -37,6 +51,9 @@ const queries = gql`
   # Query all projects
   type Query {
     allProjects: [Project]
+  }
+  type Query {
+    allProjectsEstudiante019: [ProjectE]
   }
 
   type Query {
@@ -64,6 +81,21 @@ const inputs = gql`
     endDate: String!
     leader_id: ID!
     status: ProjectStatus!
+  }
+`;
+
+const mutations = gql`
+  type Mutation {
+    update_project(input: UpdateInfo!, _id: ID!): Project
+  }
+`;
+
+const inputs = gql`
+  input UpdateInfo {
+    name: String
+    generalObjective: String
+    specificObjectives: String
+    budget: Float
   }
 `;
 
