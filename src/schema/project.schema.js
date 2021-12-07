@@ -69,6 +69,9 @@ const mutations = gql`
   type Mutation {
     registerNewProject(input: RegisterNewProjectInput!): Project!
   }
+  type Mutation {
+    update_project(input: UpdateInfo!, _id: ID!): Project
+  }
 `;
 
 const inputs = gql`
@@ -82,15 +85,7 @@ const inputs = gql`
     leader_id: ID!
     status: ProjectStatus!
   }
-`;
 
-const mutations = gql`
-  type Mutation {
-    update_project(input: UpdateInfo!, _id: ID!): Project
-  }
-`;
-
-const inputs = gql`
   input UpdateInfo {
     name: String
     generalObjective: String
