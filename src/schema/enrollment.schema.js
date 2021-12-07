@@ -32,13 +32,16 @@ const mutations = gql`
     registerEnrrolment020(input: enrrolmentInput!): Enrollment!
   }
 
+  type Mutation {
+    update_enrollment(_id: ID!, status: EnrollmentStatus!): Enrollment
+  }
+
 `;
 
 
 const inputs = gql`
   input enrrolmentInput {
     project: String!
-    update_enrollment(_id: ID!, status: EnrollmentStatus!): Enrollment
   }
 `;
 

@@ -10,7 +10,6 @@ const allEnrollments = async () => {
 
 const registerEnrrolment020 = async (parent, args, { user, errorMessage }) => {
   const idProject = await Projects.findOne({name: args.input.project }, '_id');
-  
   const registroEnrollment = new Enrollments({
     project_id: idProject,
     user_id: user._id,
@@ -27,6 +26,13 @@ const project = async (parent) => {
 const student = async (parent) => {
   const student = await Users.findById(parent.user_id);
   return student;
+};
+
+const update_enrollment = async (parent, args) => {
+  return Enrollments.findByIdAndUpdate(args._id,
+    {status: args.status || undefined},
+    {new: true}
+  );
 };
 
 export default {
