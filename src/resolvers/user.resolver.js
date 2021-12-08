@@ -93,8 +93,11 @@ const login = async (parent, args) => {
 };
 
 // HU_003 Actualizar información personal
-const updateUser = async (parent, args) => {
-  let userModified = await Users.findOneAndUpdate({_id: args.input.userById},
+const updateUser = async (parent, args, { user, errorMessage }) => {
+  if(!user) {
+    throw new Error(errorMessage);
+  }
+  const userModified = await Users.findOneAndUpdate({ _id: args.input.userById },
     {
       email: args.input.email,
       documentId: args.input.documentId,
@@ -106,7 +109,7 @@ const updateUser = async (parent, args) => {
       password: args.input.password
       // password: await bcrypt.hash(args.input.password, 12),
     },
-    {new: true}
+    { new: true }
   );
   return userModified;
 };
