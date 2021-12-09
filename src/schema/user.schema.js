@@ -50,7 +50,7 @@ const queries = gql`
   }
   
   type Query {
-    userByRole(role: String!): [User]
+    userByRole(role: UserRole!): [User]
   }
 `;
 
