@@ -1,6 +1,8 @@
 import { gql } from 'apollo-server';
 
 const projectType = gql`
+  scalar Date  
+
   # Project
   type Project {
     _id: ID!
@@ -8,7 +10,7 @@ const projectType = gql`
     generalObjective: String!
     specificObjectives: [String]!
     budget: Float!
-    startDate: String!
+    startDate: Date!
     endDate: String!
     leader_id: ID!
     status: ProjectStatus!
