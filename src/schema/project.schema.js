@@ -93,6 +93,10 @@ const mutations = gql`
   type Mutation {
     update_project(input: UpdateInfo!, _id: ID!): Project
   }
+
+  type Mutation {
+    approveProject(name: String!): Project
+  }
  
    type Mutation {
     projectChangeStatus(name: String!, status: ProjectStatus!): Project

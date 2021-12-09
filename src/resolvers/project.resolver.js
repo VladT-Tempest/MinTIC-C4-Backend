@@ -24,6 +24,18 @@ const allProjects = async (parent, args, { user, errorMessage }) => {
   return projects;
 };
 
+// HU_007
+const approveProject = async (parent, args, { user, errorMessage }) => {
+  
+  if(!user) {
+    throw new Error(errorMessage);
+  }
+  if(user.role !== ROLES.ADMIN) {
+    throw new Error('Access denied');
+  }
+  return await Projects.findOneAndUpdate({"name": args.name}, {"status": "ACTIVE", "phase": "STARTED", "startDate": Date.now()}, {new: true} )
+};
+
 // HU_008
 const projectChangeStatus = async (parent, args, { user, errorMessage }) => {
   
@@ -129,6 +141,7 @@ export default {
   projectMutations: {
     projectChangeStatus,
     projectChangePhase,
+    approveProject
   },
 
   Project: {
