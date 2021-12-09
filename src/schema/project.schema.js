@@ -11,7 +11,7 @@ const projectType = gql`
     specificObjectives: [String]!
     budget: Float!
     startDate: Date!
-    endDate: String!
+    endDate: Date!
     leader_id: ID!
     status: ProjectStatus!
     phase: Phase
@@ -105,7 +105,7 @@ const mutations = gql`
   }
 
   type Mutation {
-    projectChangePhase(name: String!, phase: Phase!): Project
+    projectChangePhase(name: String!): Project
   }
 `;
 
