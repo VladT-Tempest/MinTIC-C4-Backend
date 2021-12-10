@@ -1,3 +1,4 @@
+import { USER_STATUS, ROLES } from '../constants/user.constants.js';
 import Advances from '../models/advances.model.js';
 import Projects from '../models/projects.model.js';
 
@@ -23,7 +24,13 @@ const registrarAdvance = async (parent, args) =>{
       });
       return registroAdvance.save();
 }
-const update_advance = async (parent, args) => {
+const update_advance = async (parent, args, {user, errorMessage}) => {
+  if(!user) {
+    throw new Error(errorMessage);
+  }
+  if(user.role !== ROLES.LEADER) {
+    throw new Error('Access denied');
+  }
     return Advances.findByIdAndUpdate(args._id,
       {observations: args.observations || undefined},
     {new: true}
