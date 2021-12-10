@@ -69,6 +69,9 @@ const mutations = gql`
     changeStatusLider (documentId: Float!, status: UserStatus!): User!
 
   }
+  type Mutation {
+    changeStatus(email: String!, status: UserStatus!): User!
+  }
 `;
 
 
