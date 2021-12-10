@@ -8,7 +8,9 @@ import { USER_STATUS, ROLES } from '../constants/user.constants.js';
 // models
 import Users from "../models/users.model.js";
 import Enrollements from '../models/enrollments.model.js';
+//import { cloneObject } from 'apollo-server-core/dist/runHttpQuery';
 
+// HU_004 administrador ver la información de los usuarios registrados en la plataforma
 const allUsers = async (parent, args, { user, errorMessage }) => {
   if(!user) {
     throw new Error(errorMessage);
@@ -18,6 +20,30 @@ const allUsers = async (parent, args, { user, errorMessage }) => {
   }
   return await Users.find();
 };
+
+
+// HU_010 (LIDER) Ver la información de los estudiantes registrados en la plataforma
+const userByRole = async (parent, args, { user, errorMessage }) => {
+  if(!user) {
+    throw new Error(errorMessage);
+  }
+  if(user.role !== ROLES.STUDENT){
+    const Students = await Users.find({"role": args.role});
+    return Students; 
+  } 
+};
+//
+// HU_011 (LIDER) Cambiar el estado del estudiante de “Pendiente” a “Autorizado”
+const changeStatusLider = async (parent, args, { user, errorMessage }) => {
+  if(!user) {
+    throw new Error(errorMessage);
+  }
+  if(user.role !== ROLES.ADMIN) {
+    throw new Error('Access denied');
+  }
+  return await Users.findOneAndUpdate({"documentId": args.documentId}, {"status": args.status }, {new: true} )
+};
+
 
 const user = async (parent, args, { user, errorMessage }) => {
   if(!user) {
@@ -71,7 +97,9 @@ const updateUser = async (parent, args, { user, errorMessage }) => {
   if(!user) {
     throw new Error(errorMessage);
   }
+
   const userModified = Users.findByIdAndUpdate(user._id, { ...args.input }, { new: true });
+
   return userModified;
 };
 
@@ -86,11 +114,13 @@ export default {
     user,
     userById,
     userByEmail,
+    userByRole,
   },
   userMutations: {
     register,
     login,
     updateUser,
+    changeStatusLider
   },
   User: {
     enrollments,
