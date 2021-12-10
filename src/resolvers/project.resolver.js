@@ -24,6 +24,18 @@ const allProjects = async (parent, args, { user, errorMessage }) => {
   return projects;
 };
 
+// HU_007
+const approveProject = async (parent, args, { user, errorMessage }) => {
+  
+  if(!user) {
+    throw new Error(errorMessage);
+  }
+  if(user.role !== ROLES.ADMIN) {
+    throw new Error('Access denied');
+  }
+  return await Projects.findOneAndUpdate({"name": args.name}, {"status": "ACTIVE", "phase": "STARTED", "startDate": Date.now()}, {new: true} )
+};
+
 // HU_008
 const projectChangeStatus = async (parent, args, { user, errorMessage }) => {
   
@@ -45,8 +57,9 @@ const projectChangePhase = async (parent, args, { user, errorMessage }) => {
   if(user.role !== ROLES.ADMIN) {
     throw new Error('Access denied');
   }
-  return await Projects.findOneAndUpdate({"name": args.name}, {"phase": args.phase }, {new: true} )
+  return await Projects.findOneAndUpdate({"name": args.name}, {"phase": "ENDED", "status": "INACTIVE", "endDate": Date.now()}, {new: true} )
 };
+
 const allProjectsEstudiante019 = async (parent, args, { user, errorMessage }) => {
   if(!user){
     throw new Error(errorMessage);
@@ -129,6 +142,7 @@ export default {
     registerNewProject,
     projectChangeStatus,
     projectChangePhase,
+    approveProject
   },
 
   Project: {

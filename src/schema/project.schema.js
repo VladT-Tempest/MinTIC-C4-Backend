@@ -1,6 +1,8 @@
 import { gql } from 'apollo-server';
 
 const projectType = gql`
+  scalar Date  
+
   # Project
   type Project {
     _id: ID!
@@ -8,8 +10,8 @@ const projectType = gql`
     generalObjective: String!
     specificObjectives: [String]!
     budget: Float!
-    startDate: String!
-    endDate: String!
+    startDate: Date!
+    endDate: Date!
     leader_id: ID!
     status: ProjectStatus!
     phase: Phase
@@ -93,13 +95,17 @@ const mutations = gql`
   type Mutation {
     update_project(input: UpdateInfo!, _id: ID!): Project
   }
+
+  type Mutation {
+    approveProject(name: String!): Project
+  }
  
    type Mutation {
     projectChangeStatus(name: String!, status: ProjectStatus!): Project
   }
 
   type Mutation {
-    projectChangePhase(name: String!, phase: Phase!): Project
+    projectChangePhase(name: String!): Project
   }
 `;
 
