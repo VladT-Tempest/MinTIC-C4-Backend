@@ -61,27 +61,17 @@ const login = async (parent, args) => {
     { user },
     // eslint-disable-next-line no-undef
     process.env.SECRET,
-    { expiresIn: '30m' }
+    { expiresIn: '60m' }
   );
   return token;
 };
 
 // HU_003 Actualizar información personal
-const updateUser = async (parent, args) => {
-  let userModified = await Users.findOneAndUpdate({_id: args.input.userById},
-    {
-      email: args.input.email,
-      documentId: args.input.documentId,
-      name: args.input.name,
-      lastName: args.input.lastName,
-      fullName: args.input.fullName,
-      // fullName: `${args.input.name} ${args.input.lastName}`,
-      role: args.input.role,
-      password: args.input.password
-      // password: await bcrypt.hash(args.input.password, 12),
-    },
-    {new: true}
-  );
+const updateUser = async (parent, args, { user, errorMessage }) => {
+  if(!user) {
+    throw new Error(errorMessage);
+  }
+  const userModified = Users.findByIdAndUpdate(user._id, { ...args.input }, { new: true });
   return userModified;
 };
 

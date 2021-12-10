@@ -75,7 +75,6 @@ const inputs = gql`
   }
 
   input UpdateUserInput {
-    userById: ID!
     email: String
     documentId: Float
     name: String
