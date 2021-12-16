@@ -5,6 +5,6 @@ Este es un cambio directo en el README
 ###
 Nueva entrada en el código
 ## Comando para build docker image.
-docker build . -t <username>/neotech-app
+docker build . -t username/neotech-app
 ## Comnado para correr imagen.
-docker run -p 4000:4000 -d <username>/neotech-app
+docker run -p 4000:4000 -d username/neotech-app
