@@ -9,6 +9,18 @@ const allEnrollments = async () => {
   return enrollments;
 }
 
+const allEnrollmentsE = async (parent, args, { user, errorMessage }) => {
+  if(!user){
+    throw new Error(errorMessage);
+  }
+  if(user.role == ROLES.STUDENT){
+    
+    const enrollments = await Enrollments.find({user_id: user._id}).exec();
+    return enrollments;
+  }
+  
+
+}
 const registerEnrrolment020 = async (parent, args, { user, errorMessage }) => {
   const idProject = await Projects.findOne({name: args.input.project }, '_id');
   const registroEnrollment = new Enrollments({
@@ -44,7 +56,8 @@ const update_enrollment = async (parent, args, { user, errorMessage}) => {
 
 export default {
   enrollmentQueries: {
-    allEnrollments
+    allEnrollments,
+    allEnrollmentsE,
   },
   enrollmentMutations:{
     registerEnrrolment020,
