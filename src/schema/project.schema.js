@@ -55,7 +55,7 @@ const queries = gql`
     allProjects: [Project]
   }
   type Query {
-    allProjectsEstudiante019: [ProjectE]
+    allProjectsEstudiante019: [Project]
   }
 
   type Query {
