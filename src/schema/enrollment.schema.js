@@ -25,6 +25,9 @@ const queries = gql`
   type Query {
     allEnrollments: [Enrollment]
   }
+  type Query {
+    allEnrollmentsE: [Enrollment]
+  }
 `;
 
 const mutations = gql`
